@@ -65,7 +65,7 @@
     {#if stream.type === "Twitch"}
       <iframe
         title="twitch"
-        src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}&parent=localhost"
+        src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}&parent=localhost&parent=multi-stream-livid.vercel.app"
         frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       ></iframe>
