@@ -2,14 +2,21 @@
   import Picker from "../lib/Picker.svelte";
   import Shift from "../lib/Shift.svelte";
 
-  let streams = [{ type: "Twitch", channel: "quin69" }];
+  let streams = [];
+
+  let columns = 1;
 
   let showStreams = false;
   let streamType = "";
   let streamChannel = "";
 
   const addStream = () => {
-    if (streamType && streamChannel) {
+    const existing = streams.filter(
+      (s) =>
+        s.type?.toLowerCase() === streamType?.toLowerCase() &&
+        s.channel?.toLowerCase() === streamChannel?.toLowerCase()
+    ).length;
+    if (streamType && streamChannel && existing === 0) {
       streams = [...streams, { type: streamType, channel: streamChannel }];
       streamChannel = "";
     }
@@ -32,9 +39,22 @@
       addStream();
     }
   };
+
+  $: {
+    if (streams.length < 3) {
+      columns = 1;
+    } else {
+      columns = 2;
+    }
+  }
 </script>
 
-<div class="main">
+<div class="main" style="grid-template-columns: repeat({columns}, 1fr);">
+  {#if streams.length === 0}
+    <h2 style="text-align: center; user-select: none;">
+      Click the ≡ button in the top left corner to add streams!
+    </h2>
+  {/if}
   <div class="options_container">
     <button on:click={() => (showStreams = !showStreams)}>≡</button>
     <div class="options {showStreams}">
@@ -84,7 +104,6 @@
   .main {
     position: absolute;
     display: grid;
-    grid-template-columns: 1fr;
     width: 100%;
     height: 100%;
     color: white;
