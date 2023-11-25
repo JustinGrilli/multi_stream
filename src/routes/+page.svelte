@@ -71,7 +71,7 @@
       {/each}
       <button class="add_btn" on:click={addStream}>+</button>
       <Picker
-        options={["Twitch", "Rumble"]}
+        options={["Twitch", "Rumble", "Kick"]}
         onPick={(pick) => (streamType = pick)}
       />
       <input
@@ -96,6 +96,15 @@
         frameborder="0"
         allowfullscreen
       ></iframe>
+    {:else if stream.type === "Kick"}
+      <iframe
+        title="kick"
+        src="https://player.kick.com/{stream.channel}"
+        frameborder="0"
+        scrolling="no"
+        allowfullscreen="true"
+      >
+      </iframe>
     {/if}
   {/each}
 </div>
