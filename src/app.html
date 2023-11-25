@@ -9,13 +9,19 @@
 
 		button {
 			cursor: pointer;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
 			padding: 4px;
 			padding-left: 8px;
 			padding-right: 8px;
+			gap: 1ch;
 			color: white;
 			background-color: rgb(24, 24, 24);
 			border: none;
-			font-size: 18px;
+			font-size: 16px;
+			transition: background-color 0.1s ease;
 		}
 		button:hover {
 			background-color: rgb(50, 50, 50);
@@ -33,6 +39,7 @@
 			border: 1px solid rgb(50, 50, 50);
 			font-size: 18px;
 			width: 18ch;
+			transition: background-color 0.1s ease;
 		}
 		input:hover, input:focus {
 			background-color: rgb(50, 50, 50);
@@ -40,13 +47,28 @@
 			outline: none
 		}
 
-		p {
-			padding: 4px;
-			padding-left: 8px;
-			padding-right: 8px;
-			user-select: none;
-			text-align: center;
-			font-size: 18px;
+		img {
+			width: 20px;
+			height: 20px;
+		}
+
+		@keyframes scaleIn {
+			from {
+				transform: scale(0%);
+			}
+
+			to {
+				transform: scale(100%);
+			}
+		}
+		@keyframes scaleInY {
+			from {
+				transform: scaleY(0%);
+			}
+
+			to {
+				transform: scaleY(100%);
+			}
 		}
 	</style>
 	<head>

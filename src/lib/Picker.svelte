@@ -2,7 +2,7 @@
   export let options = [];
   export let onPick;
 
-  let picked = "--";
+  let picked = "";
   let picking = false;
 
   const pick = (option) => {
@@ -13,43 +13,57 @@
 </script>
 
 <div class="picker">
-  <button on:click={() => (picking = !picking)}>{picked}</button>
-  <div class="options {picking}">
-    {#each options as option}
-      <button id={options} class="option" on:click={() => pick(option)}
-        >{option}</button
-      >
-    {/each}
-  </div>
+  <button on:click={() => (picking = !picking)}>
+    {#if picked}
+      <img src={picked.icon} alt={picked.name} />
+    {:else}
+      {"<>"}
+    {/if}
+  </button>
+  {#if picking}
+    <div class="picker_options {picking}">
+      {#each options as option}
+        <button id={options} class="option" on:click={() => pick(option)}
+          ><img src={option.icon} alt={option.name} />{option.name}</button
+        >
+      {/each}
+    </div>
+  {/if}
 </div>
 
 <style>
   button {
-    height: 100%;
+    padding: 2px;
     width: 100%;
+    height: 28px;
+    text-wrap: nowrap;
+    justify-content: flex-start;
   }
+
   .picker {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 4ch;
-    min-height: 2ch;
   }
-  .options {
+
+  .picker_options {
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: calc(100% + 4px);
     padding: 4px;
     gap: 2px;
     background-color: rgb(10, 10, 10);
     border: 1px solid rgb(25, 25, 25);
+    transform-origin: top;
+    animation: scaleInY 0.2s ease;
   }
-  .options.false {
-    display: none;
+  .picker_options.false {
+    transform: scaleY(0);
   }
-  .options.true {
-    display: flex;
-    flex-direction: column;
+  .picker_options.true {
+    transform: scaleY(1);
   }
 </style>
