@@ -1,9 +1,8 @@
 <script>
   import Picker from "../lib/Picker.svelte";
   import Shift from "../lib/Shift.svelte";
-
+  let twitchParents = "&parent=localhost&parent=multi-cross-stream.vercel.app";
   let streams = [];
-
   let columns = 1;
 
   let showStreams = false;
@@ -85,7 +84,7 @@
     {#if stream.type === "Twitch"}
       <iframe
         title="twitch"
-        src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}&parent=localhost&parent=multi-stream-livid.vercel.app"
+        src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}{twitchParents}"
         frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       ></iframe>
