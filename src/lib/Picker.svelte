@@ -1,9 +1,8 @@
 <script>
-  import tv from "$lib/assets/tv.svg";
   export let options = [];
   export let onPick;
 
-  let picked = "";
+  let picked = options?.[0];
   let picking = false;
 
   const pick = (option) => {
@@ -15,11 +14,7 @@
 
 <div class="picker">
   <button class="pick_btn" on:click={() => (picking = !picking)}>
-    {#if picked}
-      <img src={picked.icon} alt={picked.name} />
-    {:else}
-      <img src={tv} alt="?" />
-    {/if}
+    <img src={picked.icon} alt={picked.name} />
   </button>
   {#if picking}
     <div class="picker_options {picking}">

@@ -8,14 +8,14 @@
   let twitchParents = "&parent=localhost&parent=multi-cross-stream.vercel.app";
   let streams = [];
   let columns = 1;
-
-  let streamTypes = [
-    { name: "Twitch", icon: twitch },
-    { name: "Rumble", icon: rumble },
-    { name: "Kick", icon: kick },
+  let platforms = [
+    { name: "Twitch", icon: twitch, identifier: "Channel Name" },
+    { name: "Rumble", icon: rumble, identifier: "Embed IFRAME URL" },
+    { name: "Kick", icon: kick, identifier: "Channel Name" },
   ];
+
   let showStreams = false;
-  let streamType = "";
+  let streamType = platforms[0];
   let streamChannel = "";
 
   const addStream = () => {
@@ -80,9 +80,10 @@
         />
       {/each}
       <button class="add_btn" on:click={addStream}>+</button>
-      <Picker options={streamTypes} onPick={(pick) => (streamType = pick)} />
+      <Picker options={platforms} onPick={(pick) => (streamType = pick)} />
       <input
         type="text"
+        placeholder={streamType.identifier}
         bind:value={streamChannel}
         on:keypress={(e) => onInputEnter(e)}
       />
