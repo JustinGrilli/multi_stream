@@ -1,4 +1,5 @@
 <script>
+  import menu from "$lib/assets/menu.svg";
   import twitch from "$lib/assets/twitch.png";
   import rumble from "$lib/assets/rumble.svg";
   import kick from "$lib/assets/kick.jpg";
@@ -58,13 +59,13 @@
 
 <div class="main" style="grid-template-columns: repeat({columns}, 1fr);">
   {#if streams.length === 0}
-    <h2 style="text-align: center; user-select: none;">
-      Click the ≡ button in the top left corner to add streams!
-    </h2>
+    <h3 style="text-align: center; user-select: none;">
+      Click the button in the top left corner to add streams!
+    </h3>
   {/if}
   <div class="options_container">
     <button class="streams_btn" on:click={() => (showStreams = !showStreams)}
-      >≡</button
+      ><img src={menu} alt="menu" /></button
     >
     <div class="options {showStreams}">
       {#each streams as stream, idx}
@@ -126,7 +127,10 @@
   }
 
   .streams_btn {
-    font-size: 20px;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 24px;
   }
 
   .add_btn,

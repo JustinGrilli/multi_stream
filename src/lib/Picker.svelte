@@ -1,4 +1,5 @@
 <script>
+  import tv from "$lib/assets/tv.svg";
   export let options = [];
   export let onPick;
 
@@ -13,11 +14,11 @@
 </script>
 
 <div class="picker">
-  <button on:click={() => (picking = !picking)}>
+  <button class="pick_btn" on:click={() => (picking = !picking)}>
     {#if picked}
       <img src={picked.icon} alt={picked.name} />
     {:else}
-      {"<>"}
+      <img src={tv} alt="?" />
     {/if}
   </button>
   {#if picking}
@@ -35,9 +36,13 @@
   button {
     padding: 2px;
     width: 100%;
+    min-width: 28px;
     height: 28px;
     text-wrap: nowrap;
     justify-content: flex-start;
+  }
+  .pick_btn {
+    justify-content: center;
   }
 
   .picker {
