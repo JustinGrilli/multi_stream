@@ -15,24 +15,31 @@
   ];
 
   let showStreams = false;
-  let streamType = platforms[0];
+  let streamPlatform = platforms[0];
   let streamChannel = "";
 
   const addStream = () => {
     const existing = streams.filter(
       (s) =>
-        s.type.name.toLowerCase() === streamType.name?.toLowerCase() &&
+        s.platform.name.toLowerCase() === streamPlatform.name?.toLowerCase() &&
         s.channel.toLowerCase() === streamChannel?.toLowerCase()
     ).length;
-    if (streamType && streamChannel && existing === 0) {
-      streams = [...streams, { type: streamType, channel: streamChannel }];
+    if (streamPlatform && streamChannel && existing === 0) {
+      streams = [
+        ...streams,
+        { platform: streamPlatform, channel: streamChannel },
+      ];
       streamChannel = "";
     }
   };
 
   const removeStream = (stream) => {
     streams = streams.filter(
-      (s) => !(s.type.name === stream.type.name && s.channel === stream.channel)
+      (s) =>
+        !(
+          s.platform.name === stream.platform.name &&
+          s.channel === stream.channel
+        )
     );
   };
 
@@ -72,7 +79,7 @@
         <button class="minus_btn" on:click={() => removeStream(stream)}
           >-</button
         >
-        <img src={stream.type.icon} alt={stream.type.name} />
+        <img src={stream.platform.icon} alt={stream.platform.name} />
         <input type="text" bind:value={streams[idx].channel} />
         <Shift
           onMoveUp={() => moveStream(idx, idx - 1)}
@@ -80,31 +87,31 @@
         />
       {/each}
       <button class="add_btn" on:click={addStream}>+</button>
-      <Picker options={platforms} onPick={(pick) => (streamType = pick)} />
+      <Picker options={platforms} onPick={(pick) => (streamPlatform = pick)} />
       <input
         type="text"
-        placeholder={streamType.identifier}
+        placeholder={streamPlatform.identifier}
         bind:value={streamChannel}
         on:keypress={(e) => onInputEnter(e)}
       />
     </div>
   </div>
   {#each streams as stream}
-    {#if stream.type.name === "Twitch"}
+    {#if stream.platform.name === "Twitch"}
       <iframe
         title="twitch"
         src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}{twitchParents}"
         frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       ></iframe>
-    {:else if stream.type.name === "Rumble"}
+    {:else if stream.platform.name === "Rumble"}
       <iframe
         title="rumble"
         src="{stream.channel}&autoplay=2"
         frameborder="0"
         allowfullscreen
       ></iframe>
-    {:else if stream.type.name === "Kick"}
+    {:else if stream.platform.name === "Kick"}
       <iframe
         title="kick"
         src="https://player.kick.com/{stream.channel}"
@@ -136,19 +143,21 @@
 
   .add_btn,
   .minus_btn {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     font-weight: 900;
     border-radius: 50%;
   }
   .add_btn {
     background-color: rgb(0, 88, 0);
+    border: 1px solid green;
   }
   .add_btn:hover {
     background-color: green;
   }
   .minus_btn {
     background-color: rgb(95, 0, 0);
+    border: 1px solid rgb(128, 0, 0);
   }
   .minus_btn:hover {
     background-color: rgb(128, 0, 0);
