@@ -5,6 +5,7 @@
   import kick from "$lib/assets/kick.jpg";
   import Picker from "../lib/Picker.svelte";
   import Shift from "../lib/Shift.svelte";
+  import Video from "../lib/Video.svelte";
   let twitchParents = "&parent=localhost&parent=multi-cross-stream.vercel.app";
   let streams = [];
   let columns = 1;
@@ -97,30 +98,11 @@
     </div>
   </div>
   {#each streams as stream}
-    {#if stream.platform.name === "Twitch"}
-      <iframe
-        title="twitch"
-        src="https://player.twitch.tv/?autoplay=true&muted=false&channel={stream.channel}{twitchParents}"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      ></iframe>
-    {:else if stream.platform.name === "Rumble"}
-      <iframe
-        title="rumble"
-        src="{stream.channel}&autoplay=2"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
-    {:else if stream.platform.name === "Kick"}
-      <iframe
-        title="kick"
-        src="https://player.kick.com/{stream.channel}"
-        frameborder="0"
-        scrolling="no"
-        allowfullscreen="true"
-      >
-      </iframe>
-    {/if}
+    <Video
+      platformName={stream.platform.name}
+      streamChannel={stream.channel}
+      {twitchParents}
+    />
   {/each}
 </div>
 
@@ -132,6 +114,22 @@
     height: 100%;
     color: white;
     background-color: black;
+  }
+
+  .options_container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .options_container:hover,
+  .main:hover > .options_container {
+    opacity: 1;
   }
 
   .streams_btn {
@@ -161,20 +159,6 @@
   }
   .minus_btn:hover {
     background-color: rgb(128, 0, 0);
-  }
-
-  iframe {
-    width: 100%;
-    height: 100%;
-  }
-
-  .options_container {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    top: 10px;
-    left: 10px;
   }
 
   .options {
