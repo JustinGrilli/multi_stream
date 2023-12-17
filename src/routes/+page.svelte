@@ -6,6 +6,7 @@
   import Picker from "../lib/Picker.svelte";
   import Shift from "../lib/Shift.svelte";
   import Video from "../lib/Video.svelte";
+  import { onMount } from "svelte";
   let twitchParents = "&parent=localhost&parent=multi-cross-stream.vercel.app";
   let streams = [];
   let columns = 1;
@@ -14,7 +15,8 @@
     { name: "Rumble", icon: rumble, identifier: "Embed IFRAME URL" },
     { name: "Kick", icon: kick, identifier: "Channel Name" },
   ];
-
+  let innerWidth;
+  let innerHeight;
   let showStreams = false;
   let streamPlatform = platforms[0];
   let streamChannel = "";
@@ -56,14 +58,40 @@
     }
   };
 
-  $: {
-    if (streams.length < 3) {
-      columns = 1;
-    } else {
-      columns = 2;
+  const setColumns = (streamsLength, width, height) => {
+    // Update the number of column in the main grid,
+    // based on the number of streams and width/height of the window
+    if (!width || !height) return;
+
+    // Landscape
+    if (width > height) {
+      if (streamsLength < 3) {
+        columns = 1;
+      } else if (streamsLength < 7) {
+        columns = 2;
+      } else if (streamsLength < 13) {
+        columns = 3;
+      } else {
+        columns = 4;
+      }
     }
-  }
+    // Portrait
+    if (width < height) {
+      if (streamsLength < 7) {
+        columns = 1;
+      } else if (streamsLength < 17) {
+        columns = 2;
+      } else {
+        columns = 3;
+      }
+    }
+  };
+
+  $: setColumns(streams.length, innerWidth, innerHeight);
 </script>
+
+<!-- Tracks updates to width / height of the window -->
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div class="main" style="grid-template-columns: repeat({columns}, 1fr);">
   {#if streams.length === 0}
@@ -114,6 +142,7 @@
     height: 100%;
     color: white;
     background-color: black;
+    overflow: hidden;
   }
 
   .options_container {
